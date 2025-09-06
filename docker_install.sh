@@ -43,3 +43,5 @@ newgrp docker
 
 echo "Docker installation completed!"
 echo "You may need to log out and back in for group changes to take effect."
+
+make
