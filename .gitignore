@@ -1,0 +1,23 @@
+# Secrets (never commit credentials)
+secrets/*
+!secrets/.gitkeep   # keep the folder tracked but not its content
+
+# Environment variables
+srcs/.env
+
+# Host data volumes (MariaDB + WordPress files)
+data/*
+/home/*/data/*
+
+# System / Docker cache
+**/.DS_Store
+**/.AppleDouble
+**/.LSOverride
+*.log
+*.tmp
+
+# IDE / Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
