@@ -1,10 +1,8 @@
-[mysqld]
-bind-address = 0.0.0.0
-port = 3306
-datadir = /var/lib/mysql
-socket = /var/run/mysqld/mysqld.sock
-symbolic-links=0
+[server]
+bind-address=0.0.0.0
 
-[client]
-port = 3306
-socket = /var/run/mysqld/mysqld.sock
+[mysqld]
+user = mysql
+datadir = /var/lib/mysql
+skip-host-cache
+skip-name-resolve

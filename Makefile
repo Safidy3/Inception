@@ -1,25 +1,18 @@
+USERNAME=safandri
+
 all: up
 
 setup:
-	mkdir -p /home/pcmr/data/mariadb
-	mkdir -p /home/pcmr/data/wordpress
+	mkdir -p /home/$(USERNAME)/data/mariadb
+	mkdir -p /home/$(USERNAME)/data/wordpress
 
 up: setup
-	docker compose -f srcs/docker-compose.yml up -d --build
+    docker compose up -d --build
 
 down:
-	docker compose -f srcs/docker-compose.yml down
+    docker compose down
 
 clean: down
-	docker system prune -af --volumes
+    docker volume rm -f srcs_mariadb_data srcs_wordpress_files || true
 
-deep_clean: clean
-	docker rmi -f $(docker images -qa)
-	docker volume rm $(docker volume ls -q)
-	docker network rm $(docker network ls -q) 2>/dev/null
-
-re: clean all
-
-deep_re: deep_clean all
-
-.PHONY: all up down clean re
+.PHONY: all build up down logs clean
