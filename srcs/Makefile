@@ -12,6 +12,9 @@ rmSetup:
 up: setup
 	docker compose up -d --build
 
+stop:
+	docker compose stop
+
 down:
 	docker compose down
 
@@ -35,4 +38,11 @@ execMariadb:
 execMysql:
 	docker exec -it mariadb mysql -u root -p
 
-.PHONY: all build up down logs clean execMariadb execMysql deepClean
+execWP:
+	docker exec -it wordpress bash
+
+checkWP:
+	docker exec -it wordpress netstat -tulpen | grep 9000 || true
+	docker exec -it wordpress ps aux | grep php || true
+
+.PHONY: all build up down logs clean execMariadb execMysql execWP checkWP deepClean

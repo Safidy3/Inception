@@ -9,6 +9,18 @@ services:
     networks:
       - inception
 
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_data:/var/www/html
+    env_file: .env
+    restart: unless-stopped
+    networks:
+      - inception
+
 volumes:
   mariadb_data:
     driver: local
@@ -16,6 +28,13 @@ volumes:
       type: none
       o: bind
       device: /home/safandri/data/mariadb
+    
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/safandri/data/wordpress
 
 networks:
   inception:
