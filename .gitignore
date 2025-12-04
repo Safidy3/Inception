@@ -3,7 +3,6 @@ secrets/*
 !secrets/.gitkeep   # keep the folder tracked but not its content
 
 # Environment variables
-srcs/.env
 
 # Host data volumes (MariaDB + WordPress files)
 data/*
