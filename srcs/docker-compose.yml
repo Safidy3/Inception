@@ -2,24 +2,10 @@ services:
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb
-    env_file: .env
-    restart: unless-stopped
-
     volumes:
       - mariadb_data:/var/lib/mysql
-    networks:
-      - inception
-
-  wordpress:
-    build: ./requirements/wordpress
-    container_name: wordpress
     env_file: .env
     restart: unless-stopped
-    depends_on:
-      - mariadb
-
-    volumes:
-      - wordpress_data:/var/www/wordpress
     networks:
       - inception
 
@@ -30,13 +16,6 @@ volumes:
       type: none
       o: bind
       device: /home/safandri/data/mariadb
-
-  wordpress_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/safandri/data/wordpress
 
 networks:
   inception:

@@ -1,12 +1,33 @@
 #!/bin/bash
+set -e
 
-service mysql start
+echo ">>> MariaDB ENTRYPOINT STARTED"
 
-mysql -e "CREATE DATABASE IF NOT EXISTS ${database_name};"
-mysql -e "CREATE USER '${mysql_user}'@'%' IDENTIFIED BY '${mysql_password}';"
-mysql -e "GRANT ALL PRIVILEGES ON ${database_name}.* TO '${mysql_user}'@'%';"
-mysql -u${mysql_root_user} -p${mysql_root_password} -e "ALTER USER '${mysql_root_user}'@'localhost' IDENTIFIED BY '${mysql_root_password}';"
-mysql -e "FLUSH PRIVILEGES;"
-mysqladmin -u${mysql_root_user} -p${mysql_root_password} shutdown
+if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
+    echo ">>> No '${MYSQL_DATABASE}' database detected, initializing..."
 
+    mariadb-install-db --user=mysql --ldata=/var/lib/mysql
+
+    mysqld --user=mysql --bootstrap <<EOF
+FLUSH PRIVILEGES;
+
+CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
+
+CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%';
+
+CREATE USER IF NOT EXISTS '${WP_ADMIN_USER}'@'%' IDENTIFIED BY '${WP_ADMIN_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${WP_ADMIN_USER}'@'%';
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+
+FLUSH PRIVILEGES;
+EOF
+
+    echo ">>> MariaDB init completed."
+else
+    echo ">>> Existing DB found, skipping initialization."
+fi
+
+echo ">>> Launching MariaDB"
 exec "$@"

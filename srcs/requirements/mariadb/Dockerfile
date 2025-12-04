@@ -1,15 +1,24 @@
+# Use penultimate stable Debian (example: bookworm) – adjust if needed
+FROM debian:bookworm
 
-FROM debian:buster
+RUN apt-get update && \
+    apt-get install -y mariadb-server mariadb-client && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update -y && \
-    apt-get install -y mariadb-server
+# Ensure MariaDB data directory exists
+RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
 
+# Copy custom config & initialization script
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./tools/init-db.sh /usr/local/bin/init-db.sh
 
-RUN  chmod +x /usr/local/bin/init-db.sh
+RUN chmod +x /usr/local/bin/init-db.sh
 
-RUN sed -i "s/127.0.0.1/0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf 
-COPY conf/mariadb.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+# Expose DB port (internal only, docker-network)
+EXPOSE 3306
 
-ENTRYPOINT ["bash", "/usr/local/bin/init-db.sh"]
-CMD ["mysqld_safe"]
+# ENTRYPOINT runs the init script, which handles first-run DB setup
+ENTRYPOINT ["init-db.sh"]
+
+# Run mysqld in foreground (required by Inception)
+CMD ["mysqld"]
