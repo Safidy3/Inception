@@ -31,6 +31,9 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin d
 # Enable and start Docker service
 sudo systemctl enable --now docker
 
+sudo usermod -aG sudo "$USER"
+newgrp sudo
+
 # Add current user to the Docker group to run Docker without sudo
 sudo usermod -aG docker "$USER"
 newgrp docker
