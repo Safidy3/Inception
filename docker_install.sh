@@ -47,6 +47,5 @@ echo "Docker installation completed!"
 echo "You may need to log out and back in for group changes to take effect."
 
 # Clone the repository and launch app
-git clone https://github.com/Safidy3/Inception.git
 cd Inception/docker_setup
 make up
