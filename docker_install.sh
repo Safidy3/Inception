@@ -11,7 +11,7 @@ sudo apt update -y
 sudo apt install -y \
     wget gpg apt-transport-https software-properties-common \
     ca-certificates curl gnupg lsb-release \
-    git make net-tools
+    make net-tools
 
 # Install Microsoft GPG key and VS Code repository
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg
