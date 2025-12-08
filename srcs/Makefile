@@ -36,7 +36,7 @@ execMariadb:
 	docker exec -it mariadb bash
 
 execMysql:
-	docker exec -it mariadb mysql -u root -p
+	docker exec -it mariadb mariadb -u wp_user -p
 
 execWP:
 	docker exec -it wordpress bash

@@ -25,6 +25,22 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     echo "WP config created."
 fi
 
+# Check if WordPress is already installed
+if ! wp core is-installed --allow-root 2>/dev/null; then
+    echo "Installing WordPress..."
+    wp core install \
+        --url="https://${DOMAIN_NAME}" \
+        --title="${WP_TITLE}" \
+        --admin_user="${WP_ADMIN_USER}" \
+        --admin_password="${WP_ADMIN_PASSWORD}" \
+        --admin_email="${WP_ADMIN_EMAIL}" \
+        --allow-root
+
+    echo "WordPress installed successfully!"
+else
+    echo "WordPress is already installed."
+fi
+
 # Permissions
 chown -R www-data:www-data /var/www/html
 
