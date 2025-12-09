@@ -1,4 +1,5 @@
 USERNAME=safandri
+DOCKER_COMPOSE_FILE = ./srcs/docker-compose.yml
 
 all: up
 
@@ -10,13 +11,13 @@ rmSetup:
 	sudo rm -rf /home/$(USERNAME)/data
 
 up: setup
-	docker compose up -d --build
+	docker compose -f $(DOCKER_COMPOSE_FILE) up -d --build
 
 stop:
-	docker compose stop
+	docker compose -f $(DOCKER_COMPOSE_FILE) stop
 
 down:
-	docker compose down
+	docker compose -f $(DOCKER_COMPOSE_FILE) down
 
 clean: down
 	docker volume rm -f srcs_mariadb_data srcs_wordpress_files || true

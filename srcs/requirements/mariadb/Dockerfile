@@ -2,7 +2,7 @@
 FROM debian:bookworm
 
 RUN apt-get update && \
-    apt-get install -y mariadb-server mariadb-client && \
+    apt-get install -y mariadb-server && \
     rm -rf /var/lib/apt/lists/*
 
 # Ensure MariaDB data directory exists
