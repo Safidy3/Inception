@@ -20,7 +20,7 @@ down:
 	docker compose -f $(DOCKER_COMPOSE_FILE) down
 	make rmDB
 
-restart: down up
+re: down up
 
 clean: down
 	docker volume rm -f srcs_mariadb_data srcs_wordpress_files || true
