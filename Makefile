@@ -7,7 +7,7 @@ setup:
 	mkdir -p /home/$(USERNAME)/data/mariadb
 	mkdir -p /home/$(USERNAME)/data/wordpress
 
-rmSetup:
+rmDB:
 	sudo rm -rf /home/$(USERNAME)/data
 
 up: setup
@@ -18,20 +18,26 @@ stop:
 
 down:
 	docker compose -f $(DOCKER_COMPOSE_FILE) down
+	make rmDB
+
+restart: down up
 
 clean: down
 	docker volume rm -f srcs_mariadb_data srcs_wordpress_files || true
 
 prune: clean
 	docker system prune -af --volumes
-	make rmSetup
+	make rmDB
+
+deepRestart: prune up
 
 deepClean: clean
 	docker stop $(docker ps -aq)
 	docker rm $(docker ps -aq)
 	docker volume rm $(docker volume ls -q)
 	docker network rm $(docker network ls -q)
-	make rmSetup
+	make rmDB
+
 
 execMariadb:
 	docker exec -it mariadb bash
