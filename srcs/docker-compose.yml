@@ -33,7 +33,6 @@ services:
       - "443:443"
     volumes:
       - wordpress_data:/var/www/html:ro       # WordPress volume
-      - ./certs:/certs:ro                     # Your certs folder
     env_file: .env
     restart: unless-stopped
     networks:

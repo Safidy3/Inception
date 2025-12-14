@@ -37,4 +37,10 @@ execWP:
 execNginx:
 	docker exec -it nginx bash
 
+checkTSL:
+	openssl s_client -connect safandri.42.fr:443 -tls1_2
+
+checkNetwork:
+	docker network inspect srcs_inception
+
 .PHONY: all setup rmDB up stop down re clean prune cleanRe execMariadb execWP execNginx
