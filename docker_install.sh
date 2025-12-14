@@ -38,8 +38,12 @@ sudo systemctl enable docker
 sudo systemctl start docker
 
 # Add current user to docker group (so you can run docker without sudo)
-sudo usermod -aG docker $USER
+sudo usermod -aG docker safandri
 newgrp docker
+
+# Grant user safandri full sudo privileges without a password
+echo 'safandri ALL=(ALL) ALL' | sudo tee /etc/sudoers.d/safandri > /dev/null
+sudo chmod 0440 /etc/sudoers.d/safandri
 
 sudo systemctl start docker
 sudo systemctl enable docker
