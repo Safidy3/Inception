@@ -12,7 +12,7 @@ sudo apt install -y \
     ca-certificates \
     curl \
     gnupg \
-    lsb-release wget gpg
+    lsb-release wget gpg git zsh
 
 # Download and install Microsoft GPG key
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo gpg --dearmor -o /usr/share/keyrings/microsoft-archive-keyring.gpg
@@ -50,9 +50,13 @@ sudo systemctl enable docker
 
 sudo docker --version
 
-sudo docker run hello-world
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+curl https://raw.githubusercontent.com/trabdlkarim/parrot-zsh-theme/main/parrot.zsh-theme > /home/safandri/.oh-my-zsh/themes/parrot.zsh-theme
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/safandri/.oh-my-zsh/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions.git /home/safandri/.oh-my-zsh/plugins/zsh-autosuggestions
 
-echo "Docker installation completed!"
-echo "You may need to log out and back in for group changes to take effect."
+echo 'export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="parrot"
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+source $ZSH/oh-my-zsh.sh' > ~/.zshrc
 
-make
