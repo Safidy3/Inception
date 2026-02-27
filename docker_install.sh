@@ -7,7 +7,7 @@ sudo apt remove -y docker docker-engine docker.io containerd runc || true
 sudo apt update -y
 
 sudo apt install -y \
-    ca-certificates curl gnupg lsb-release wget gpg git zsh npm make gcc clang
+    ca-certificates curl gnupg lsb-release wget gpg git zsh npm make gcc clang valgrind
 
 # Microsoft key
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | \
