@@ -59,10 +59,10 @@ if [ "$DISTRO" == "ubuntu" ] || [ "$DISTRO" == "debian" ]; then
     https://download.docker.com/linux/debian $(lsb_release -cs) stable" | \
     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt update -y
-    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin readline-devel readline gcc-c++ clang make
 elif [ "$DISTRO" == "fedora" ] || [ "$DISTRO" == "nobara" ]; then
     sudo dnf config-manager --add-repo=https://download.docker.com/linux/fedora/docker-ce.repo
-    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin readline clang make libreadline-dev g++
 fi
 
 # Start Docker service and add user to docker group
